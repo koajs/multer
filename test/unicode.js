@@ -1,56 +1,57 @@
 /* eslint-env mocha */
 
-const assert = require('assert')
+const assert = require('assert');
 
-const path = require('path')
-const util = require('./_util')
-const multer = require('../')
-const temp = require('fs-temp')
-const rimraf = require('rimraf')
-const FormData = require('form-data')
+const path = require('path');
+const temp = require('fs-temp');
+const rimraf = require('rimraf');
+const FormData = require('form-data');
+const util = require('./_util');
+const multer = require('..');
 
 describe('Unicode', () => {
-  var uploadDir, upload
+  let uploadDir;
+  let upload;
 
-  beforeEach((done) => {
+  beforeEach(done => {
     temp.mkdir((err, path) => {
-      if (err) return done(err)
+      if (err) return done(err);
 
-      var storage = multer.diskStorage({
+      const storage = multer.diskStorage({
         destination: path,
         filename: (req, file, cb) => {
-          cb(null, file.originalname)
+          cb(null, file.originalname);
         }
-      })
+      });
 
-      uploadDir = path
-      upload = multer({ storage: storage })
-      done()
-    })
-  })
+      uploadDir = path;
+      upload = multer({ storage });
+      done();
+    });
+  });
 
-  afterEach((done) => {
-    rimraf(uploadDir, done)
-  })
+  afterEach(done => {
+    rimraf(uploadDir, done);
+  });
 
-  it('should handle unicode filenames', (done) => {
-    var form = new FormData()
-    var parser = upload.single('small0')
-    var filename = '\ud83d\udca9.dat'
+  it('should handle unicode filenames', done => {
+    const form = new FormData();
+    const parser = upload.single('small0');
+    const filename = '\uD83D\uDCA9.dat';
 
-    form.append('small0', util.file('small0.dat'), { filename: filename })
+    form.append('small0', util.file('small0.dat'), { filename });
 
     util.submitForm(parser, form, (err, req) => {
-      assert.ifError(err)
+      assert.ifError(err);
 
-      assert.equal(path.basename(req.file.path), filename)
-      assert.equal(req.file.originalname, filename)
+      assert.equal(path.basename(req.file.path), filename);
+      assert.equal(req.file.originalname, filename);
 
-      assert.equal(req.file.fieldname, 'small0')
-      assert.equal(req.file.size, 1778)
-      assert.equal(util.fileSize(req.file.path), 1778)
+      assert.equal(req.file.fieldname, 'small0');
+      assert.equal(req.file.size, 1778);
+      assert.equal(util.fileSize(req.file.path), 1778);
 
-      done()
-    })
-  })
-})
+      done();
+    });
+  });
+});

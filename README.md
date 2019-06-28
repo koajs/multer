@@ -1,7 +1,6 @@
-# koa-multer
+# [**@koa/multer**](https://github.com/koa/multer)
 
-> Multer is a node.js middleware for handling `multipart/form-data` for koa.  
-> [multer] wrapper for koa's middleware.
+> Route middleware for Koa that handles `multipart/form-data` using [multer][]
 
 [![NPM version][npm-img]][npm-url]
 [![NPM Downloads][downloads-image]][npm-url]
@@ -11,20 +10,24 @@
 [![License][license-img]][license-url]
 
 
+## Call for Maintainers
+
+This module is a fork of [koa-multer][], the most widely used multer middleware in the koa community.  Due to lack of maintenance, it was forked to the official Koa organization and is available under `@koa/multer` package name.
+
+
 ## Install
 
 ```sh
-$ npm install --save koa-multer
+npm install --save koa/multer multer
 ```
 
-## Usage
 
-### **=1.x**, **100%**, working with [multer-v1.x](https://github.com/expressjs/multer) and [koa-v2.x](https://github.com/koajs/koa/tree/v2.x).
+## Usage
 
 ```js
 const Koa = require('koa');
 const route = require('koa-route');
-const multer = require('koa-multer');
+const multer = require('@koa/multer');
 
 const app = new Koa();
 const upload = multer({ dest: 'uploads/' });
@@ -34,34 +37,43 @@ app.use(route.post('/profile', upload.single('avatar')));
 app.listen(3000);
 ```
 
-### **=0.x**, working with `multer-v0.x`(v0.1.8 is the latset version of v0.x) and [koa-v1.x](https://github.com/koajs/koa)
 
-```js
-var koa = require('koa');
-var multer = require('koa-multer');
+## Contributors
 
-var app = koa();
-
-app.use(multer({ dest: './uploads/'}));
-
-app.listen(3000);
-```
+| Name           | Website                    |
+| -------------- | -------------------------- |
+| **Nick Baugh** | <http://niftylettuce.com/> |
 
 
 ## License
 
-  [MIT](LICENSE)
+[MIT](LICENSE) © Fangdun Cai
 
 
-[npm-img]: https://img.shields.io/npm/v/koa-multer.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/koa-multer
-[travis-img]: https://img.shields.io/travis/koa-modules/multer.svg?style=flat-square
-[travis-url]: https://travis-ci.org/koa-modules/multer
-[coveralls-img]: https://img.shields.io/coveralls/koa-modules/multer.svg?style=flat-square
-[coveralls-url]: https://coveralls.io/r/koa-modules/multer?branch=master
+## 
+
+[npm-img]: https://img.shields.io/npm/v/@koa/multer.svg?style=flat-square
+
+[npm-url]: https://npmjs.org/package/@koa/multer
+
+[travis-img]: https://img.shields.io/travis/koajs/multer.svg?style=flat-square
+
+[travis-url]: https://travis-ci.org/koajs/multer
+
+[coveralls-img]: https://img.shields.io/coveralls/koajs/multer.svg?style=flat-square
+
+[coveralls-url]: https://coveralls.io/r/koajs/multer?branch=master
+
 [license-img]: https://img.shields.io/badge/license-MIT-green.svg?style=flat-square
+
 [license-url]: LICENSE
-[david-img]: https://img.shields.io/david/koa-modules/multer.svg?style=flat-square
-[david-url]: https://david-dm.org/koa-modules/multer
-[downloads-image]: https://img.shields.io/npm/dm/koa-multer.svg?style=flat-square
+
+[david-img]: https://img.shields.io/david/koajs/multer.svg?style=flat-square
+
+[david-url]: https://david-dm.org/koajs/multer
+
+[downloads-image]: https://img.shields.io/npm/dm/@koa/multer.svg?style=flat-square
+
 [multer]: https://github.com/expressjs/multer
+
+[koa-multer]: https://github.com/koa-modules/multer

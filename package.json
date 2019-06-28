@@ -1,39 +1,42 @@
 {
-  "name": "koa-multer",
-  "version": "1.0.2",
-  "description": "Middleware for handling `multipart/form-data` for koa.",
+  "name": "@koa/multer",
+  "description": "Route middleware for Koa that handles `multipart/form-data` using multer",
+  "version": "2.0.0",
   "author": "Fangdun Cai <cfddream@gmail.com>",
-  "license": "MIT",
-  "repository": "koa-modules/multer",
-  "keywords": [
-    "form",
-    "post",
-    "multipart",
-    "form-data",
-    "formdata",
-    "koa",
-    "middleware"
-  ],
-  "main": "index.js",
-  "scripts": {
-    "test": "mocha --reporter spec --bail --check-leaks",
-    "test-ci": "isparta cover node_modules/.bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/*.js",
-    "test-cov": "isparta cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/*.js"
+  "bugs": {
+    "url": "https://github.com/koajs/multer/issues",
+    "email": "niftylettuce@gmail.com"
   },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "contributors": [
+    "Nick Baugh <niftylettuce@gmail.com> (http://niftylettuce.com/)"
+  ],
+  "dependencies": {},
   "devDependencies": {
-    "concat-stream": "^1",
+    "@commitlint/cli": "^8.0.0",
+    "@commitlint/config-conventional": "^8.0.0",
+    "@koa/router": "^8",
+    "concat-stream": "^2",
+    "eslint-config-xo-lass": "^1.0.3",
+    "fixpack": "^2.3.1",
     "form-data": "^2",
     "fs-temp": "^1",
+    "husky": "^2.7.0",
     "isparta": "^4",
     "koa": "^2",
-    "koa-router": "^7",
-    "mocha": "^3",
+    "lint-staged": "^8.2.1",
+    "mocha": "3.x",
+    "multer": "^1.3.0",
     "on-finished": "^2",
+    "remark-cli": "^6.0.1",
+    "remark-preset-github": "^0.0.14",
     "rimraf": "^2",
-    "testdata-w3c-json-form": "^0"
-  },
-  "dependencies": {
-    "multer": "1.3.0"
+    "testdata-w3c-json-form": "^1",
+    "xo": "^0.24.0"
   },
   "engines": {
     "node": ">= 6"
@@ -43,5 +46,78 @@
     "LICENSE",
     "README.md",
     "index.js"
-  ]
+  ],
+  "homepage": "https://github.com/koajs/multer",
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "keywords": [
+    "form",
+    "form-data",
+    "formdata",
+    "koa",
+    "middleware",
+    "multipart",
+    "post"
+  ],
+  "license": "MIT",
+  "lint-staged": {
+    "linters": {
+      "*.js": [
+        "xo --fix",
+        "git add"
+      ],
+      "*.md": [
+        "remark . -qfo",
+        "git add"
+      ],
+      "package.json": [
+        "fixpack",
+        "git add"
+      ]
+    }
+  },
+  "main": "index.js",
+  "peerDependencies": {
+    "multer": "*"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "bracketSpacing": true,
+    "trailingComma": "none"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "remarkConfig": {
+    "plugins": [
+      "preset-github"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/koajs/multer"
+  },
+  "scripts": {
+    "lint": "xo && remark . -qfo",
+    "test": "npm run lint && mocha --reporter spec --bail --check-leaks",
+    "test-ci": "npm run lint && isparta cover node_modules/.bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/*.js",
+    "test-cov": "npm run lint && isparta cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/*.js"
+  },
+  "xo": {
+    "prettier": true,
+    "space": true,
+    "extends": [
+      "xo-lass"
+    ],
+    "rules": {
+      "node/no-deprecated-api": "off",
+      "no-unused-vars": "off",
+      "no-prototype-builtins": "off",
+      "prefer-rest-params": "off"
+    }
+  }
 }
