@@ -17,6 +17,8 @@ This module is a fork of [koa-multer][], the most widely used multer middleware 
 
 ## Install
 
+> Note that you must install either `multer@1.x` (Buffer) or `multer@2.x` (Streams):
+
 ```sh
 npm install --save koa/multer multer
 ```
@@ -26,14 +28,49 @@ npm install --save koa/multer multer
 
 ```js
 const Koa = require('koa');
-const route = require('koa-route');
+const Router = require('@koa/router');
 const multer = require('@koa/multer');
 
 const app = new Koa();
-const upload = multer({ dest: 'uploads/' });
+const router = new Router();
+const upload = multer(); // note you can pass `multer` options here
 
-app.use(route.post('/profile', upload.single('avatar')));
+// add a route for uploading multiple files
+router.post(
+  '/upload-multiple-files',
+  upload.fields([
+    {
+      name: 'avatar',
+      maxCount: 1
+    },
+    {
+      name: 'boop',
+      maxCount: 2
+    }
+  ]),
+  ctx => {
+    console.log('ctx.request.files', ctx.request.files);
+    console.log('ctx.files', ctx.files);
+    ctx.body = 'done';
+  }
+);
 
+// add a route for uploading single files
+router.post(
+  '/upload-single-file',
+  upload.single('avatar'),
+  ctx => {
+    console.log('ctx.request.file', ctx.request.file);
+    console.log('ctx.file', ctx.file);
+    ctx.body = 'done';
+  }
+);
+
+// add the router to our app
+app.use(router.routes());
+app.use(router.allowedMethods());
+
+// start the server
 app.listen(3000);
 ```
 
