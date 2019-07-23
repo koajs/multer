@@ -20,7 +20,7 @@ This module is a fork of [koa-multer][], the most widely used multer middleware 
 > Note that you must install either `multer@1.x` (Buffer) or `multer@2.x` (Streams):
 
 ```sh
-npm install --save koa/multer multer
+npm install --save @koa/multer multer
 ```
 
 
