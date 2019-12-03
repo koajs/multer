@@ -119,4 +119,37 @@ describe('Koa Integration', () => {
       done();
     });
   });
+
+  it('should transmit route params', done => {
+    let receivedParams;
+    const upload = multer({
+      dest: (req, file, cb) => {
+        receivedParams = req.params;
+        cb(null, '.');
+      }
+    });
+    const router = new Router();
+    const form = new FormData();
+
+    form.append('avatar', util.file('large.jpg'));
+
+    router.post('/upload/:a/:b', upload.single('avatar'), (ctx, next) => {
+      ctx.status = 200;
+      ctx.body = 'SUCCESS';
+    });
+
+    app.use(router.routes());
+    app.use(router.allowedMethods());
+
+    submitForm(form, '/upload/A/2', (err, res, body) => {
+      assert.ifError(err);
+      assert.equal(res.statusCode, 200);
+      assert.deepEqual(receivedParams, {
+        a: 'A',
+        b: '2'
+      });
+
+      done();
+    });
+  });
 });

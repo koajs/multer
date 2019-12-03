@@ -35,7 +35,9 @@ function makePromise(multer, name) {
 
     return (ctx, next) => {
       return new Promise((resolve, reject) => {
-        middleware(ctx.req, ctx.res, err => {
+        const req = ctx.req;
+        req.params = ctx.params;
+        middleware(req, ctx.res, err => {
           if (err) return reject(err);
           if ('request' in ctx) {
             if (ctx.req.body) {

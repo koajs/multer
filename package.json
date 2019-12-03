@@ -117,7 +117,8 @@
       "node/no-deprecated-api": "off",
       "no-unused-vars": "off",
       "no-prototype-builtins": "off",
-      "prefer-rest-params": "off"
+      "prefer-rest-params": "off",
+      "prefer-destructuring": "off"
     }
   }
 }
