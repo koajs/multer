@@ -51,6 +51,7 @@ router.post(
   ctx => {
     console.log('ctx.request.files', ctx.request.files);
     console.log('ctx.files', ctx.files);
+    console.log('ctx.request.body', ctx.request.body);
     ctx.body = 'done';
   }
 );
@@ -62,6 +63,7 @@ router.post(
   ctx => {
     console.log('ctx.request.file', ctx.request.file);
     console.log('ctx.file', ctx.file);
+    console.log('ctx.request.body', ctx.request.body);
     ctx.body = 'done';
   }
 );
