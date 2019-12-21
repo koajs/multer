@@ -31,7 +31,7 @@ function makePromise(multer, name) {
   const fn = multer[name];
 
   multer[name] = function() {
-    const middleware = fn.apply(this, arguments);
+    const middleware = Reflect.apply(fn, this, arguments);
 
     return (ctx, next) => {
       return new Promise((resolve, reject) => {

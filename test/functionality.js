@@ -13,7 +13,7 @@ function generateFilename(req, file, cb) {
 }
 
 function startsWith(str, start) {
-  return str.substring(0, start.length) === start;
+  return str.slice(0, start.length) === start;
 }
 
 describe('Functionality', () => {
@@ -129,8 +129,8 @@ describe('Functionality', () => {
     util.submitForm(parser, form, (err, req) => {
       assert.ifError(err);
       assert.equal(req.files.length, 2);
-      assert.ok(req.files[0].path.indexOf('/testforme-') >= 0);
-      assert.ok(req.files[1].path.indexOf('/testforme-') >= 0);
+      assert.ok(req.files[0].path.includes('/testforme-'));
+      assert.ok(req.files[1].path.includes('/testforme-'));
       done();
     });
   });

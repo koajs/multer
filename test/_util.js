@@ -36,9 +36,9 @@ exports.submitForm = (multer, form, cb) => {
           cb(null, req);
         });
       })
-      .catch(err2 => {
+      .catch(err_ => {
         onFinished(req, () => {
-          cb(err2, req);
+          cb(err_, req);
         });
       });
   });
