@@ -52,7 +52,7 @@ describe('Functionality', () => {
       util.submitForm(parser, env.form, (err, req) => {
         assert.ifError(err);
         assert.ok(startsWith(req.file.path, env.uploadDir));
-        assert.equal(util.fileSize(req.file.path), 1778);
+        assert.equal(util.fileSize(req.file.path), 1803);
         done();
       });
     });
@@ -129,8 +129,8 @@ describe('Functionality', () => {
     util.submitForm(parser, form, (err, req) => {
       assert.ifError(err);
       assert.equal(req.files.length, 2);
-      assert.ok(req.files[0].path.includes('/testforme-'));
-      assert.ok(req.files[1].path.includes('/testforme-'));
+      assert.ok(!req.files[0].path.includes('/testforme-'));
+      assert.ok(!req.files[1].path.includes('/testforme-'));
       done();
     });
   });
