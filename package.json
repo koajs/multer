@@ -2,7 +2,10 @@
   "name": "@koa/multer",
   "description": "Route middleware for Koa that handles `multipart/form-data` using multer",
   "version": "2.0.2",
-  "author": "Fangdun Cai <cfddream@gmail.com>",
+  "author": {
+    "name": "Fangdun Cai",
+    "email": "cfddream@gmail.com"
+  },
   "bugs": {
     "url": "https://github.com/koajs/multer/issues",
     "email": "niftylettuce@gmail.com"
@@ -13,7 +16,11 @@
     ]
   },
   "contributors": [
-    "Nick Baugh <niftylettuce@gmail.com> (http://niftylettuce.com/)"
+    {
+      "name": "Nick Baugh",
+      "email": "niftylettuce@gmail.com",
+      "url": "http://niftylettuce.com/"
+    }
   ],
   "dependencies": {},
   "devDependencies": {
@@ -26,11 +33,11 @@
     "form-data": "^3",
     "fs-temp": "^1",
     "husky": "^3.1.0",
-    "isparta": "^4",
     "koa": "^2",
     "lint-staged": "^9.5.0",
     "mocha": "3.x",
     "multer": "^1.3.0",
+    "nyc": "^15.0.0",
     "on-finished": "^2",
     "remark-cli": "^7.0.1",
     "remark-preset-github": "^0.0.16",
@@ -103,9 +110,8 @@
   },
   "scripts": {
     "lint": "xo && remark . -qfo",
-    "test": "npm run lint && mocha --reporter spec --bail --check-leaks",
-    "test-ci": "npm run lint && isparta cover node_modules/.bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/*.js",
-    "test-cov": "npm run lint && isparta cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/*.js"
+    "test": "npm run lint && mocha",
+    "test-ci": "nyc npm run test --reporter=lcov"
   },
   "xo": {
     "prettier": true,
