@@ -1,4 +1,4 @@
-# [**@koa/multer**](https://github.com/koa/multer)
+# [**@koa/multer**](https://github.com/koajs/multer)
 
 > Route middleware for Koa that handles `multipart/form-data` using [multer][]
 
