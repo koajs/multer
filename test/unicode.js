@@ -3,6 +3,7 @@
 const assert = require('assert');
 
 const path = require('path');
+const { isWindows } = require('current-os');
 const temp = require('fs-temp');
 const rimraf = require('rimraf');
 const FormData = require('form-data');
@@ -48,8 +49,8 @@ describe('Unicode', () => {
       assert.equal(req.file.originalname, filename);
 
       assert.equal(req.file.fieldname, 'small0');
-      assert.equal(req.file.size, 1803);
-      assert.equal(util.fileSize(req.file.path), 1803);
+      assert.equal(req.file.size, isWindows ? 1803 : 1778);
+      assert.equal(util.fileSize(req.file.path), isWindows ? 1803 : 1778);
 
       done();
     });

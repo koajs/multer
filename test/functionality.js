@@ -2,6 +2,7 @@
 
 const assert = require('assert');
 
+const { isWindows } = require('current-os');
 const temp = require('fs-temp');
 const rimraf = require('rimraf');
 const FormData = require('form-data');
@@ -52,7 +53,7 @@ describe('Functionality', () => {
       util.submitForm(parser, env.form, (err, req) => {
         assert.ifError(err);
         assert.ok(startsWith(req.file.path, env.uploadDir));
-        assert.equal(util.fileSize(req.file.path), 1803);
+        assert.equal(util.fileSize(req.file.path), isWindows ? 1803 : 1778);
         done();
       });
     });

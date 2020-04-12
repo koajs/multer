@@ -2,6 +2,7 @@
 
 const assert = require('assert');
 
+const { isWindows } = require('current-os');
 const FormData = require('form-data');
 const util = require('./_util');
 const multer = require('..');
@@ -37,8 +38,8 @@ describe('Reuse Middleware', () => {
         req.files.forEach(file => {
           assert.equal(file.fieldname, 'them-files');
           assert.equal(file.originalname, 'small0.dat');
-          assert.equal(file.size, 1803);
-          assert.equal(file.buffer.length, 1803);
+          assert.equal(file.size, isWindows ? 1803 : 1778);
+          assert.equal(file.buffer.length, isWindows ? 1803 : 1778);
         });
 
         if (--pending === 0) done();

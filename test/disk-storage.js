@@ -4,6 +4,7 @@ const assert = require('assert');
 
 const fs = require('fs');
 const path = require('path');
+const { isWindows } = require('current-os');
 const temp = require('fs-temp');
 const rimraf = require('rimraf');
 const FormData = require('form-data');
@@ -42,8 +43,8 @@ describe('Disk Storage', () => {
 
       assert.equal(req.file.fieldname, 'small0');
       assert.equal(req.file.originalname, 'small0.dat');
-      assert.equal(req.file.size, 1803);
-      assert.equal(util.fileSize(req.file.path), 1803);
+      assert.equal(req.file.size, isWindows ? 1803 : 1778);
+      assert.equal(util.fileSize(req.file.path), isWindows ? 1803 : 1778);
 
       done();
     });
@@ -116,8 +117,11 @@ describe('Disk Storage', () => {
 
       assert.equal(req.files.tiny0[0].fieldname, 'tiny0');
       assert.equal(req.files.tiny0[0].originalname, 'tiny0.dat');
-      assert.equal(req.files.tiny0[0].size, 128);
-      assert.equal(util.fileSize(req.files.tiny0[0].path), 128);
+      assert.equal(req.files.tiny0[0].size, isWindows ? 128 : 122);
+      assert.equal(
+        util.fileSize(req.files.tiny0[0].path),
+        isWindows ? 128 : 122
+      );
 
       assert.equal(req.files.tiny1[0].fieldname, 'tiny1');
       assert.equal(req.files.tiny1[0].originalname, 'tiny1.dat');
@@ -126,18 +130,27 @@ describe('Disk Storage', () => {
 
       assert.equal(req.files.small0[0].fieldname, 'small0');
       assert.equal(req.files.small0[0].originalname, 'small0.dat');
-      assert.equal(req.files.small0[0].size, 1803);
-      assert.equal(util.fileSize(req.files.small0[0].path), 1803);
+      assert.equal(req.files.small0[0].size, isWindows ? 1803 : 1778);
+      assert.equal(
+        util.fileSize(req.files.small0[0].path),
+        isWindows ? 1803 : 1778
+      );
 
       assert.equal(req.files.small1[0].fieldname, 'small1');
       assert.equal(req.files.small1[0].originalname, 'small1.dat');
-      assert.equal(req.files.small1[0].size, 329);
-      assert.equal(util.fileSize(req.files.small1[0].path), 329);
+      assert.equal(req.files.small1[0].size, isWindows ? 329 : 315);
+      assert.equal(
+        util.fileSize(req.files.small1[0].path),
+        isWindows ? 329 : 315
+      );
 
       assert.equal(req.files.medium[0].fieldname, 'medium');
       assert.equal(req.files.medium[0].originalname, 'medium.dat');
-      assert.equal(req.files.medium[0].size, 13386);
-      assert.equal(util.fileSize(req.files.medium[0].path), 13386);
+      assert.equal(req.files.medium[0].size, isWindows ? 13386 : 13196);
+      assert.equal(
+        util.fileSize(req.files.medium[0].path),
+        isWindows ? 13386 : 13196
+      );
 
       assert.equal(req.files.large[0].fieldname, 'large');
       assert.equal(req.files.large[0].originalname, 'large.jpg');
