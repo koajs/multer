@@ -33,8 +33,8 @@ function makePromise(multer, name) {
   multer[name] = function() {
     const middleware = Reflect.apply(fn, this, arguments);
 
-    return async (ctx, next) => {
-      await new Promise((resolve, reject) => {
+    return (ctx, next) => {
+      return new Promise((resolve, reject) => {
         middleware(ctx.req, ctx.res, err => {
           if (err) return reject(err);
           if ('request' in ctx) {
@@ -58,9 +58,7 @@ function makePromise(multer, name) {
 
           resolve(ctx);
         });
-      });
-
-      return next;
+      }).then(next); // eslint-disable-line promise/prefer-await-to-then
     };
   };
 }
