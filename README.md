@@ -79,9 +79,10 @@ app.listen(3000);
 
 ## Contributors
 
-| Name           | Website                    |
-| -------------- | -------------------------- |
-| **Nick Baugh** | <http://niftylettuce.com/> |
+| Name            | Website                         |
+| --------------- | ------------------------------- |
+| **Nick Baugh**  | <http://niftylettuce.com/>      |
+| **Imed Jaberi** | <https://www.3imed-jaberi.com/> |
 
 
 ## License

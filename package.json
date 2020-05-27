@@ -20,6 +20,11 @@
       "name": "Nick Baugh",
       "email": "niftylettuce@gmail.com",
       "url": "http://niftylettuce.com/"
+    },
+    {
+      "name": "Imed Jaberi",
+      "email": "imed_jebari@hotmail.fr",
+      "url": "https://www.3imed-jaberi.com/"
     }
   ],
   "dependencies": {},
@@ -49,7 +54,6 @@
     "node": ">= 6"
   },
   "files": [
-    "History.md",
     "LICENSE",
     "README.md",
     "index.js"
