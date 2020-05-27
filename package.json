@@ -1,7 +1,7 @@
 {
   "name": "@koa/multer",
   "description": "Route middleware for Koa that handles `multipart/form-data` using multer",
-  "version": "2.0.2",
+  "version": "3.0.0",
   "author": {
     "name": "Fangdun Cai",
     "email": "cfddream@gmail.com"
