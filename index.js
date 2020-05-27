@@ -60,7 +60,7 @@ function makePromise(multer, name) {
         });
       });
 
-      return next();
+      return next;
     };
   };
 }
