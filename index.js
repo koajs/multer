@@ -58,7 +58,7 @@ function makePromise(multer, name) {
 
           resolve(ctx);
         });
-      }).then(next);
+      }).then(next); // eslint-disable-line promise/prefer-await-to-then
     };
   };
 }

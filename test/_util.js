@@ -31,6 +31,7 @@ exports.submitForm = (multer, form, cb) => {
     const res = null;
     const ctx = { req, res };
     multer(ctx, () => {})
+      // eslint-disable-next-line promise/prefer-await-to-then
       .then(() => {
         onFinished(req, () => {
           cb(null, req);
