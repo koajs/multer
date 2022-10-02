@@ -1,21 +1,25 @@
-const fs = require('fs');
-const path = require('path');
-const stream = require('stream');
-const onFinished = require('on-finished');
+import { fileURLToPath } from 'node:url';
+import { createReadStream, statSync } from 'node:fs';
+import { join } from 'node:path';
+import { PassThrough } from 'node:stream';
 
-exports.file = name => {
-  return fs.createReadStream(path.join(__dirname, 'files', name));
-};
+import onFinished from 'on-finished';
 
-exports.fileSize = path => {
-  return fs.statSync(path).size;
-};
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
-exports.submitForm = (multer, form, cb) => {
+export function file(name) {
+  return createReadStream(join(__dirname, '..', 'files', name));
+}
+
+export function fileSize(path) {
+  return statSync(path).size;
+}
+
+export function submitForm(multer, form, cb) {
   form.getLength((err, length) => {
     if (err) return cb(err);
 
-    const req = new stream.PassThrough();
+    const req = new PassThrough();
 
     req.complete = false;
     form.once('end', () => {
@@ -31,16 +35,15 @@ exports.submitForm = (multer, form, cb) => {
     const res = null;
     const ctx = { req, res };
     multer(ctx, () => {})
-      // eslint-disable-next-line promise/prefer-await-to-then
       .then(() => {
         onFinished(req, () => {
           cb(null, req);
         });
       })
-      .catch(err_ => {
+      .catch((err_) => {
         onFinished(req, () => {
           cb(err_, req);
         });
       });
   });
-};
+}

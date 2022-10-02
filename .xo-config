@@ -1,0 +1,17 @@
+{
+  "prettier": true,
+  "space": true,
+  "extends": [
+    "xo-lass"
+  ],
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "rules": {
+    "node/no-deprecated-api": "off",
+    "no-unused-vars": "off",
+    "no-prototype-builtins": "off",
+    "prefer-rest-params": "off",
+    "unicorn/no-array-for-each": "off"
+  }
+}

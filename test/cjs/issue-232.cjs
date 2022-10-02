@@ -1,18 +1,19 @@
 /* eslint-env mocha */
 
-const assert = require('assert');
+const { strictEqual, ok } = require('assert');
 
 const temp = require('fs-temp');
 const rimraf = require('rimraf');
 const FormData = require('form-data');
-const util = require('./_util');
-const multer = require('..');
+
+const multer = require('../../dist/index.cjs');
+const { file, submitForm } = require('./_util.cjs');
 
 describe('Issue #232', () => {
   let uploadDir;
   let upload;
 
-  before(done => {
+  before((done) => {
     temp.mkdir((err, path) => {
       if (err) return done(err);
 
@@ -22,21 +23,19 @@ describe('Issue #232', () => {
     });
   });
 
-  after(done => {
-    rimraf(uploadDir, done);
-  });
+  after((done) => rimraf(uploadDir, done));
 
-  it('should report limit errors', done => {
+  it('should report limit errors', (done) => {
     const form = new FormData();
     const parser = upload.single('file');
 
-    form.append('file', util.file('large.jpg'));
+    form.append('file', file('large.jpg'));
 
-    util.submitForm(parser, form, (err, req) => {
-      assert.ok(err, 'an error was given');
+    submitForm(parser, form, (err, req) => {
+      ok(err, 'an error was given');
 
-      assert.equal(err.code, 'LIMIT_FILE_SIZE');
-      assert.equal(err.field, 'file');
+      strictEqual(err.code, 'LIMIT_FILE_SIZE');
+      strictEqual(err.field, 'file');
 
       done();
     });

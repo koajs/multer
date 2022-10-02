@@ -1,5 +1,3 @@
-'use strict';
-
 /*!
  * multer
  * Copyright(c) 2014 Hage Yaapa
@@ -11,7 +9,7 @@
  * Module dependencies.
  */
 
-const originalMulter = require('multer');
+import originalMulter from 'multer';
 
 function multer(options) {
   const m = originalMulter(options);
@@ -30,13 +28,16 @@ function makePromise(multer, name) {
 
   const fn = multer[name];
 
-  multer[name] = function() {
+  multer[name] = function () {
     const middleware = Reflect.apply(fn, this, arguments);
 
     return async (ctx, next) => {
       await new Promise((resolve, reject) => {
-        middleware(ctx.req, ctx.res, err => {
-          if (err) return reject(err);
+        middleware(ctx.req, ctx.res, (err) => {
+          if (err) {
+            return reject(err);
+          }
+
           if ('request' in ctx) {
             if (ctx.req.body) {
               ctx.request.body = ctx.req.body;
@@ -68,4 +69,4 @@ function makePromise(multer, name) {
 multer.diskStorage = originalMulter.diskStorage;
 multer.memoryStorage = originalMulter.memoryStorage;
 
-module.exports = multer;
+export default multer;

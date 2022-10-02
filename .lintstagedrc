@@ -1,0 +1,16 @@
+{
+  "linters": {
+    "*.js": [
+      "xo --fix",
+      "git add"
+    ],
+    "*.md": [
+      "remark . -qfo",
+      "git add"
+    ],
+    "package.json": [
+      "fixpack",
+      "git add"
+    ]
+  }
+}

@@ -14,7 +14,7 @@ A clear and concise description of the behavior.
 - REPL or Repo link if applicable:
 
 ```js
-var your => (code) => here;
+var your = (code) => here;
 ```
 
 **Expected behavior/code**

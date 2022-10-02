@@ -1,13 +1,14 @@
 /* eslint-env mocha */
 
-const assert = require('assert');
+const { strictEqual, ifError } = require('assert');
 
 const FormData = require('form-data');
-const util = require('./_util');
-const multer = require('..');
+
+const multer = require('../../dist/index.cjs');
+const { file, submitForm } = require('./_util.cjs');
 
 describe('File ordering', () => {
-  it('should present files in same order as they came', done => {
+  it('should present files in same order as they came', (done) => {
     const storage = multer.memoryStorage();
     const upload = multer({ storage });
     const parser = upload.array('themFiles', 2);
@@ -34,14 +35,14 @@ describe('File ordering', () => {
 
     const form = new FormData();
 
-    form.append('themFiles', util.file('small0.dat'));
-    form.append('themFiles', util.file('small1.dat'));
+    form.append('themFiles', file('small0.dat'));
+    form.append('themFiles', file('small1.dat'));
 
-    util.submitForm(parser, form, (err, req) => {
-      assert.ifError(err);
-      assert.equal(req.files.length, 2);
-      assert.equal(req.files[0].originalname, 'small0.dat');
-      assert.equal(req.files[1].originalname, 'small1.dat');
+    submitForm(parser, form, (err, req) => {
+      ifError(err);
+      strictEqual(req.files.length, 2);
+      strictEqual(req.files[0].originalname, 'small0.dat');
+      strictEqual(req.files[1].originalname, 'small1.dat');
       done();
     });
   });

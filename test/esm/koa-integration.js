@@ -1,34 +1,39 @@
 /* eslint-env mocha */
 
-const assert = require('assert');
+import { strictEqual, ifError } from 'node:assert';
 
-const Koa = require('koa');
-const Router = require('@koa/router');
-const FormData = require('form-data');
-const concat = require('concat-stream');
-const onFinished = require('on-finished');
-const util = require('./_util');
-const multer = require('..');
+import Koa from 'koa';
+import Router from '@koa/router';
 
-const port = 34279;
+import FormData from 'form-data';
+import concat from 'concat-stream';
+import onFinished from 'on-finished';
+
+import multer from '../../src/index.js';
+import { file } from './_util.js';
 
 describe('Koa Integration', () => {
   let app;
+  let server;
+  let port;
 
-  before(done => {
+  before((done) => {
     app = new Koa();
     app.silent = true;
-    app.listen(port, done);
+    server = app.listen(0, done);
+    port = server.address().port;
   });
 
+  after(() => server.close());
+
   function submitForm(form, path, cb) {
-    const req = form.submit('http://localhost:' + port + path);
+    const req = form.submit(`http://localhost:${port}${path}`);
 
     req.on('error', cb);
-    req.on('response', res => {
+    req.on('response', (res) => {
       res.on('error', cb);
       res.pipe(
-        concat({ encoding: 'buffer' }, body => {
+        concat({ encoding: 'buffer' }, (body) => {
           onFinished(req, () => {
             cb(null, res, body);
           });
@@ -37,7 +42,7 @@ describe('Koa Integration', () => {
     });
   }
 
-  it('should work with koa error handling', done => {
+  it('should work with koa error handling', (done) => {
     const limits = { fileSize: 200 };
     const upload = multer({ limits });
     const router = new Router();
@@ -46,7 +51,7 @@ describe('Koa Integration', () => {
     let routeCalled = 0;
     let errorCalled = 0;
 
-    form.append('avatar', util.file('large.jpg'));
+    form.append('avatar', file('large.jpg'));
 
     router.post('/profile', upload.single('avatar'), (ctx, next) => {
       routeCalled++;
@@ -57,7 +62,7 @@ describe('Koa Integration', () => {
     router.prefix('/t1');
 
     app.once('error', (err, ctx) => {
-      assert.equal(err.code, 'LIMIT_FILE_SIZE');
+      strictEqual(err.code, 'LIMIT_FILE_SIZE');
 
       errorCalled++;
     });
@@ -66,18 +71,18 @@ describe('Koa Integration', () => {
     app.use(router.allowedMethods());
 
     submitForm(form, '/t1/profile', (err, res, body) => {
-      assert.ifError(err);
+      ifError(err);
 
-      assert.equal(routeCalled, 0);
-      assert.equal(errorCalled, 1);
-      assert.equal(body.toString(), 'Internal Server Error');
-      assert.equal(res.statusCode, 500);
+      strictEqual(routeCalled, 0);
+      strictEqual(errorCalled, 1);
+      strictEqual(body.toString(), 'Internal Server Error');
+      strictEqual(res.statusCode, 500);
 
       done();
     });
   });
 
-  it('should work when receiving error from fileFilter', done => {
+  it('should work when receiving error from fileFilter', (done) => {
     function fileFilter(req, file, cb) {
       cb(new Error('TEST'));
     }
@@ -89,7 +94,7 @@ describe('Koa Integration', () => {
     let routeCalled = 0;
     let errorCalled = 0;
 
-    form.append('avatar', util.file('large.jpg'));
+    form.append('avatar', file('large.jpg'));
 
     router.post('/profile', upload.single('avatar'), (ctx, next) => {
       routeCalled++;
@@ -100,7 +105,7 @@ describe('Koa Integration', () => {
     router.prefix('/t2');
 
     app.once('error', (err, ctx) => {
-      assert.equal(err.message, 'TEST');
+      strictEqual(err.message, 'TEST');
 
       errorCalled++;
     });
@@ -109,12 +114,12 @@ describe('Koa Integration', () => {
     app.use(router.allowedMethods());
 
     submitForm(form, '/t2/profile', (err, res, body) => {
-      assert.ifError(err);
+      ifError(err);
 
-      assert.equal(routeCalled, 0);
-      assert.equal(errorCalled, 1);
-      assert.equal(body.toString(), 'Internal Server Error');
-      assert.equal(res.statusCode, 500);
+      strictEqual(routeCalled, 0);
+      strictEqual(errorCalled, 1);
+      strictEqual(body.toString(), 'Internal Server Error');
+      strictEqual(res.statusCode, 500);
 
       done();
     });
