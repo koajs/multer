@@ -130,6 +130,6 @@
     }
   },
   "dependencies": {
-    "fix-esm": "^1.0.1"
+    "fix-esm": "1.0.1"
   }
 }
