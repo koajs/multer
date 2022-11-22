@@ -1,10 +1,10 @@
 /* eslint-env mocha */
 
-const assert = require('assert');
+const assert = require('node:assert');
 
 const FormData = require('form-data');
-const util = require('./_util');
 const multer = require('..');
+const util = require('./_util');
 
 function generateForm() {
   const form = new FormData();
@@ -42,7 +42,7 @@ describe('Select Field', () => {
     ]);
   });
 
-  it('should select the first file with fieldname', done => {
+  it('should select the first file with fieldname', (done) => {
     util.submitForm(parser, generateForm(), (err, req) => {
       assert.ifError(err);
 
@@ -64,7 +64,7 @@ describe('Select Field', () => {
     });
   });
 
-  it('should select all files with fieldname', done => {
+  it('should select all files with fieldname', (done) => {
     util.submitForm(parser, generateForm(), (err, req) => {
       assert.ifError(err);
 

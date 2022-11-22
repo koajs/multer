@@ -1,21 +1,21 @@
 /* eslint-env mocha */
 
-const assert = require('assert');
+const assert = require('node:assert');
 
 const Koa = require('koa');
 const Router = require('@koa/router');
 const FormData = require('form-data');
 const concat = require('concat-stream');
 const onFinished = require('on-finished');
-const util = require('./_util');
 const multer = require('..');
+const util = require('./_util');
 
 const port = 34279;
 
 describe('Koa Integration', () => {
   let app;
 
-  before(done => {
+  before((done) => {
     app = new Koa();
     app.silent = true;
     app.listen(port, done);
@@ -25,10 +25,10 @@ describe('Koa Integration', () => {
     const req = form.submit('http://localhost:' + port + path);
 
     req.on('error', cb);
-    req.on('response', res => {
+    req.on('response', (res) => {
       res.on('error', cb);
       res.pipe(
-        concat({ encoding: 'buffer' }, body => {
+        concat({ encoding: 'buffer' }, (body) => {
           onFinished(req, () => {
             cb(null, res, body);
           });
@@ -37,7 +37,7 @@ describe('Koa Integration', () => {
     });
   }
 
-  it('should work with koa error handling', done => {
+  it('should work with koa error handling', (done) => {
     const limits = { fileSize: 200 };
     const upload = multer({ limits });
     const router = new Router();
@@ -77,7 +77,7 @@ describe('Koa Integration', () => {
     });
   });
 
-  it('should work when receiving error from fileFilter', done => {
+  it('should work when receiving error from fileFilter', (done) => {
     function fileFilter(req, file, cb) {
       cb(new Error('TEST'));
     }

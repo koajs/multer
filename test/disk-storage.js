@@ -1,20 +1,20 @@
 /* eslint-env mocha */
 
-const assert = require('assert');
+const assert = require('node:assert');
 
-const fs = require('fs');
-const path = require('path');
-const temp = require('fs-temp');
+const fs = require('node:fs');
+const path = require('node:path');
+const temp = require('fix-esm').require('fs-temp').default;
 const rimraf = require('rimraf');
 const FormData = require('form-data');
-const util = require('./_util');
 const multer = require('..');
+const util = require('./_util');
 
 describe('Disk Storage', () => {
   let uploadDir;
   let upload;
 
-  beforeEach(done => {
+  beforeEach((done) => {
     temp.mkdir((err, path) => {
       if (err) return done(err);
 
@@ -24,11 +24,11 @@ describe('Disk Storage', () => {
     });
   });
 
-  afterEach(done => {
+  afterEach((done) => {
     rimraf(uploadDir, done);
   });
 
-  it('should process parser/form-data POST request', done => {
+  it('should process parser/form-data POST request', (done) => {
     const form = new FormData();
     const parser = upload.single('small0');
 
@@ -49,7 +49,7 @@ describe('Disk Storage', () => {
     });
   });
 
-  it('should process empty fields and an empty file', done => {
+  it('should process empty fields and an empty file', (done) => {
     const form = new FormData();
     const parser = upload.single('empty');
 
@@ -84,7 +84,7 @@ describe('Disk Storage', () => {
     });
   });
 
-  it('should process multiple files', done => {
+  it('should process multiple files', (done) => {
     const form = new FormData();
     const parser = upload.fields([
       { name: 'empty', maxCount: 1 },
@@ -148,7 +148,7 @@ describe('Disk Storage', () => {
     });
   });
 
-  it('should remove uploaded files on error', done => {
+  it('should remove uploaded files on error', (done) => {
     const form = new FormData();
     const parser = upload.single('tiny0');
 
@@ -167,7 +167,7 @@ describe('Disk Storage', () => {
     });
   });
 
-  it("should report error when directory doesn't exist", done => {
+  it("should report error when directory doesn't exist", (done) => {
     const directory = path.join(temp.mkdirSync(), 'ghost');
     function dest($0, $1, cb) {
       cb(null, directory);

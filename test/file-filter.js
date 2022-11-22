@@ -1,10 +1,10 @@
 /* eslint-env mocha */
 
-const assert = require('assert');
+const assert = require('node:assert');
 
 const FormData = require('form-data');
-const util = require('./_util');
 const multer = require('..');
+const util = require('./_util');
 
 function withFilter(fileFilter) {
   return multer({ fileFilter });
@@ -19,7 +19,7 @@ function reportFakeError(req, file, cb) {
 }
 
 describe('File Filter', () => {
-  it('should skip some files', done => {
+  it('should skip some files', (done) => {
     const form = new FormData();
     const upload = withFilter(skipSpecificFile);
     const parser = upload.fields([
@@ -41,7 +41,7 @@ describe('File Filter', () => {
     });
   });
 
-  it('should report errors from fileFilter', done => {
+  it('should report errors from fileFilter', (done) => {
     const form = new FormData();
     const upload = withFilter(reportFakeError);
     const parser = upload.single('test');

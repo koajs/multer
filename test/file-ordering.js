@@ -1,13 +1,13 @@
 /* eslint-env mocha */
 
-const assert = require('assert');
+const assert = require('node:assert');
 
 const FormData = require('form-data');
-const util = require('./_util');
 const multer = require('..');
+const util = require('./_util');
 
 describe('File ordering', () => {
-  it('should present files in same order as they came', done => {
+  it('should present files in same order as they came', (done) => {
     const storage = multer.memoryStorage();
     const upload = multer({ storage });
     const parser = upload.array('themFiles', 2);

@@ -1,13 +1,13 @@
-const fs = require('fs');
-const path = require('path');
-const stream = require('stream');
+const fs = require('node:fs');
+const path = require('node:path');
+const stream = require('node:stream');
 const onFinished = require('on-finished');
 
-exports.file = name => {
+exports.file = (name) => {
   return fs.createReadStream(path.join(__dirname, 'files', name));
 };
 
-exports.fileSize = path => {
+exports.fileSize = (path) => {
   return fs.statSync(path).size;
 };
 
@@ -31,13 +31,12 @@ exports.submitForm = (multer, form, cb) => {
     const res = null;
     const ctx = { req, res };
     multer(ctx, () => {})
-      // eslint-disable-next-line promise/prefer-await-to-then
       .then(() => {
         onFinished(req, () => {
           cb(null, req);
         });
       })
-      .catch(err_ => {
+      .catch((err_) => {
         onFinished(req, () => {
           cb(err_, req);
         });

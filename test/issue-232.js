@@ -1,18 +1,18 @@
 /* eslint-env mocha */
 
-const assert = require('assert');
+const assert = require('node:assert');
 
-const temp = require('fs-temp');
+const temp = require('fix-esm').require('fs-temp').default;
 const rimraf = require('rimraf');
 const FormData = require('form-data');
-const util = require('./_util');
 const multer = require('..');
+const util = require('./_util');
 
 describe('Issue #232', () => {
   let uploadDir;
   let upload;
 
-  before(done => {
+  before((done) => {
     temp.mkdir((err, path) => {
       if (err) return done(err);
 
@@ -22,11 +22,11 @@ describe('Issue #232', () => {
     });
   });
 
-  after(done => {
+  after((done) => {
     rimraf(uploadDir, done);
   });
 
-  it('should report limit errors', done => {
+  it('should report limit errors', (done) => {
     const form = new FormData();
     const parser = upload.single('file');
 

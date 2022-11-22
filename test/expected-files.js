@@ -1,20 +1,20 @@
 /* eslint-env mocha */
 
-const assert = require('assert');
+const assert = require('node:assert');
 
 const FormData = require('form-data');
-const util = require('./_util');
 const multer = require('..');
+const util = require('./_util');
 
 describe('Expected files', () => {
   let upload;
 
-  before(done => {
+  before((done) => {
     upload = multer();
     done();
   });
 
-  it('should reject single unexpected file', done => {
+  it('should reject single unexpected file', (done) => {
     const form = new FormData();
     const parser = upload.single('butme');
 
@@ -27,7 +27,7 @@ describe('Expected files', () => {
     });
   });
 
-  it('should reject array of multiple files', done => {
+  it('should reject array of multiple files', (done) => {
     const form = new FormData();
     const parser = upload.array('butme', 4);
 
@@ -41,7 +41,7 @@ describe('Expected files', () => {
     });
   });
 
-  it('should reject overflowing arrays', done => {
+  it('should reject overflowing arrays', (done) => {
     const form = new FormData();
     const parser = upload.array('butme', 1);
 
@@ -55,7 +55,7 @@ describe('Expected files', () => {
     });
   });
 
-  it('should accept files with expected fieldname', done => {
+  it('should accept files with expected fieldname', (done) => {
     const form = new FormData();
     const parser = upload.fields([
       { name: 'butme', maxCount: 2 },
@@ -76,7 +76,7 @@ describe('Expected files', () => {
     });
   });
 
-  it('should reject files with unexpected fieldname', done => {
+  it('should reject files with unexpected fieldname', (done) => {
     const form = new FormData();
     const parser = upload.fields([
       { name: 'butme', maxCount: 2 },
@@ -95,7 +95,7 @@ describe('Expected files', () => {
     });
   });
 
-  it('should allow any file to come thru', done => {
+  it('should allow any file to come thru', (done) => {
     const form = new FormData();
     const parser = upload.any();
 

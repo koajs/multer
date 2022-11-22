@@ -11,7 +11,9 @@
  * Module dependencies.
  */
 
-const originalMulter = require('multer');
+let originalMulter = require('fix-esm').require('multer');
+
+if (originalMulter.default) originalMulter = originalMulter.default;
 
 function multer(options) {
   const m = originalMulter(options);
@@ -30,12 +32,12 @@ function makePromise(multer, name) {
 
   const fn = multer[name];
 
-  multer[name] = function() {
+  multer[name] = function () {
     const middleware = Reflect.apply(fn, this, arguments);
 
     return async (ctx, next) => {
       await new Promise((resolve, reject) => {
-        middleware(ctx.req, ctx.res, err => {
+        middleware(ctx.req, ctx.res, (err) => {
           if (err) return reject(err);
           if ('request' in ctx) {
             if (ctx.req.body) {

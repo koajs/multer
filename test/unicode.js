@@ -1,25 +1,25 @@
 /* eslint-env mocha */
 
-const assert = require('assert');
+const assert = require('node:assert');
 
-const path = require('path');
-const temp = require('fs-temp');
+const path = require('node:path');
+const temp = require('fix-esm').require('fs-temp').default;
 const rimraf = require('rimraf');
 const FormData = require('form-data');
-const util = require('./_util');
 const multer = require('..');
+const util = require('./_util');
 
 describe('Unicode', () => {
   let uploadDir;
   let upload;
 
-  beforeEach(done => {
+  beforeEach((done) => {
     temp.mkdir((err, path) => {
       if (err) return done(err);
 
       const storage = multer.diskStorage({
         destination: path,
-        filename: (req, file, cb) => {
+        filename(req, file, cb) {
           cb(null, file.originalname);
         }
       });
@@ -30,11 +30,11 @@ describe('Unicode', () => {
     });
   });
 
-  afterEach(done => {
+  afterEach((done) => {
     rimraf(uploadDir, done);
   });
 
-  it('should handle unicode filenames', done => {
+  it('should handle unicode filenames', (done) => {
     const form = new FormData();
     const parser = upload.single('small0');
     const filename = '\uD83D\uDCA9.dat';

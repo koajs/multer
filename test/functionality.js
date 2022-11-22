@@ -1,12 +1,12 @@
 /* eslint-env mocha */
 
-const assert = require('assert');
+const assert = require('node:assert');
 
-const temp = require('fs-temp');
+const temp = require('fix-esm').require('fs-temp').default;
 const rimraf = require('rimraf');
 const FormData = require('form-data');
-const util = require('./_util');
 const multer = require('..');
+const util = require('./_util');
 
 function generateFilename(req, file, cb) {
   cb(null, file.fieldname + file.originalname);
@@ -39,10 +39,10 @@ describe('Functionality', () => {
   }
 
   after(() => {
-    while (cleanup.length) rimraf.sync(cleanup.pop());
+    while (cleanup.length > 0) rimraf.sync(cleanup.pop());
   });
 
-  it('should upload the file to the `dest` dir', done => {
+  it('should upload the file to the `dest` dir', (done) => {
     makeStandardEnv((err, env) => {
       if (err) return done(err);
 
@@ -58,7 +58,7 @@ describe('Functionality', () => {
     });
   });
 
-  it('should rename the uploaded file', done => {
+  it('should rename the uploaded file', (done) => {
     makeStandardEnv((err, env) => {
       if (err) return done(err);
 
@@ -73,7 +73,7 @@ describe('Functionality', () => {
     });
   });
 
-  it('should ensure all req.files values (single-file per field) point to an array', done => {
+  it('should ensure all req.files values (single-file per field) point to an array', (done) => {
     makeStandardEnv((err, env) => {
       if (err) return done(err);
 
@@ -88,7 +88,7 @@ describe('Functionality', () => {
     });
   });
 
-  it('should ensure all req.files values (multi-files per field) point to an array', done => {
+  it('should ensure all req.files values (multi-files per field) point to an array', (done) => {
     makeStandardEnv((err, env) => {
       if (err) return done(err);
 
@@ -106,9 +106,9 @@ describe('Functionality', () => {
     });
   });
 
-  it('should rename the destination directory to a different directory', done => {
+  it('should rename the destination directory to a different directory', (done) => {
     const storage = multer.diskStorage({
-      destination: (req, file, cb) => {
+      destination(req, file, cb) {
         temp.template('testforme-%s').mkdir((err, uploadDir) => {
           if (err) return cb(err);
 

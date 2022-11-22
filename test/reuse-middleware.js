@@ -1,20 +1,20 @@
 /* eslint-env mocha */
 
-const assert = require('assert');
+const assert = require('node:assert');
 
 const FormData = require('form-data');
-const util = require('./_util');
 const multer = require('..');
+const util = require('./_util');
 
 describe('Reuse Middleware', () => {
   let parser;
 
-  before(done => {
+  before((done) => {
     parser = multer().array('them-files');
     done();
   });
 
-  it('should accept multiple requests', done => {
+  it('should accept multiple requests', (done) => {
     let pending = 8;
 
     function submitData(fileCount) {
@@ -34,12 +34,12 @@ describe('Reuse Middleware', () => {
         assert.equal(req.body.files, String(fileCount));
         assert.equal(req.files.length, fileCount);
 
-        req.files.forEach(file => {
+        for (const file of req.files) {
           assert.equal(file.fieldname, 'them-files');
           assert.equal(file.originalname, 'small0.dat');
           assert.equal(file.size, 1778);
           assert.equal(file.buffer.length, 1778);
-        });
+        }
 
         if (--pending === 0) done();
       });

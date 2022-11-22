@@ -1,11 +1,11 @@
 /* eslint-env mocha */
 
-const assert = require('assert');
+const assert = require('node:assert');
 
-const stream = require('stream');
+const stream = require('node:stream');
 const FormData = require('form-data');
-const util = require('./_util');
 const multer = require('..');
+const util = require('./_util');
 
 function withLimits(limits, fields) {
   const storage = multer.memoryStorage();
@@ -13,7 +13,7 @@ function withLimits(limits, fields) {
 }
 
 describe('Error Handling', () => {
-  it('should respect parts limit', done => {
+  it('should respect parts limit', (done) => {
     const form = new FormData();
     const parser = withLimits({ parts: 1 }, [{ name: 'small0', maxCount: 1 }]);
 
@@ -26,7 +26,7 @@ describe('Error Handling', () => {
     });
   });
 
-  it('should respect file size limit', done => {
+  it('should respect file size limit', (done) => {
     const form = new FormData();
     const parser = withLimits({ fileSize: 1500 }, [
       { name: 'tiny0', maxCount: 1 },
@@ -43,7 +43,7 @@ describe('Error Handling', () => {
     });
   });
 
-  it('should respect file count limit', done => {
+  it('should respect file count limit', (done) => {
     const form = new FormData();
     const parser = withLimits({ files: 1 }, [
       { name: 'small0', maxCount: 1 },
@@ -59,7 +59,7 @@ describe('Error Handling', () => {
     });
   });
 
-  it('should respect file key limit', done => {
+  it('should respect file key limit', (done) => {
     const form = new FormData();
     const parser = withLimits({ fieldNameSize: 4 }, [
       { name: 'small0', maxCount: 1 }
@@ -73,7 +73,7 @@ describe('Error Handling', () => {
     });
   });
 
-  it('should respect field key limit', done => {
+  it('should respect field key limit', (done) => {
     const form = new FormData();
     const parser = withLimits({ fieldNameSize: 4 }, []);
 
@@ -86,7 +86,7 @@ describe('Error Handling', () => {
     });
   });
 
-  it('should respect field value limit', done => {
+  it('should respect field value limit', (done) => {
     const form = new FormData();
     const parser = withLimits({ fieldSize: 16 }, []);
 
@@ -100,7 +100,7 @@ describe('Error Handling', () => {
     });
   });
 
-  it('should respect field count limit', done => {
+  it('should respect field count limit', (done) => {
     const form = new FormData();
     const parser = withLimits({ fields: 1 }, []);
 
@@ -113,7 +113,7 @@ describe('Error Handling', () => {
     });
   });
 
-  it('should respect fields given', done => {
+  it('should respect fields given', (done) => {
     const form = new FormData();
     const parser = withLimits(undefined, [{ name: 'wrongname', maxCount: 1 }]);
 
@@ -126,10 +126,10 @@ describe('Error Handling', () => {
     });
   });
 
-  it('should report errors from storage engines', done => {
+  it('should report errors from storage engines', (done) => {
     const storage = multer.memoryStorage();
 
-    storage._removeFile = function(req, file, cb) {
+    storage._removeFile = function (req, file, cb) {
       const err = new Error('Test error');
       err.code = 'TEST';
       cb(err);
@@ -155,7 +155,7 @@ describe('Error Handling', () => {
     });
   });
 
-  it('should report errors from busboy constructor', done => {
+  it('should report errors from busboy constructor', (done) => {
     const req = new stream.PassThrough();
     const storage = multer.memoryStorage();
     const upload = multer({ storage }).single('tiny0');
@@ -168,13 +168,13 @@ describe('Error Handling', () => {
 
     req.end(body);
 
-    upload({ req }, () => {}).catch(err => {
+    upload({ req }, () => {}).catch((err) => {
       assert.equal(err.message, 'Multipart: Boundary not found');
       done();
     });
   });
 
-  it('should report errors from busboy parsing', done => {
+  it('should report errors from busboy parsing', (done) => {
     const req = new stream.PassThrough();
     const storage = multer.memoryStorage();
     const upload = multer({ storage }).single('tiny0');
@@ -194,7 +194,7 @@ describe('Error Handling', () => {
 
     req.end(body);
 
-    upload({ req }, () => {}).catch(err => {
+    upload({ req }, () => {}).catch((err) => {
       assert.equal(err.message, 'Unexpected end of multipart data');
       done();
     });

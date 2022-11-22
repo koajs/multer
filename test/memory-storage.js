@@ -1,20 +1,20 @@
 /* eslint-env mocha */
 
-const assert = require('assert');
+const assert = require('node:assert');
 
 const FormData = require('form-data');
-const util = require('./_util');
 const multer = require('..');
+const util = require('./_util');
 
 describe('Memory Storage', () => {
   let upload;
 
-  before(done => {
+  before((done) => {
     upload = multer();
     done();
   });
 
-  it('should process multipart/form-data POST request', done => {
+  it('should process multipart/form-data POST request', (done) => {
     const form = new FormData();
     const parser = upload.single('small0');
 
@@ -35,7 +35,7 @@ describe('Memory Storage', () => {
     });
   });
 
-  it('should process empty fields and an empty file', done => {
+  it('should process empty fields and an empty file', (done) => {
     const form = new FormData();
     const parser = upload.single('empty');
 
@@ -70,7 +70,7 @@ describe('Memory Storage', () => {
     });
   });
 
-  it('should process multiple files', done => {
+  it('should process multiple files', (done) => {
     const form = new FormData();
     const parser = upload.fields([
       { name: 'empty', maxCount: 1 },
