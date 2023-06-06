@@ -96,9 +96,9 @@ app.listen(3000);
 
 [npm-url]: https://npmjs.org/package/@koa/multer
 
-[actions-img]: https://github.com/mcfizh/multer/actions/workflows/unit-tests.yml/badge.svg
+[actions-img]: https://github.com/koajs/multer/actions/workflows/unit-tests.yaml/badge.svg
 
-[actions-url]: https://github.com/koa-modules/multer/actions
+[actions-url]: https://github.com/koajs/multer/actions
 
 [coveralls-img]: https://img.shields.io/coveralls/koajs/multer.svg?style=flat-square
 
