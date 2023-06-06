@@ -1,7 +1,6 @@
 /* eslint-env mocha */
 
 const assert = require('node:assert');
-
 const temp = require('fix-esm').require('fs-temp').default;
 const rimraf = require('rimraf');
 const FormData = require('form-data');

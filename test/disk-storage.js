@@ -1,7 +1,6 @@
 /* eslint-env mocha */
 
 const assert = require('node:assert');
-
 const fs = require('node:fs');
 const path = require('node:path');
 const temp = require('fix-esm').require('fs-temp').default;

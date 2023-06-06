@@ -47,10 +47,10 @@
     "remark-preset-github": "^4.0.4",
     "rimraf": "^3",
     "testdata-w3c-json-form": "^1",
-    "xo": "^0.53.1"
+    "xo": "^0.54.2"
   },
   "engines": {
-    "node": ">= 8"
+    "node": ">= 14"
   },
   "files": [
     "LICENSE",
