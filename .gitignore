@@ -21,3 +21,4 @@ yarn-error.log
 coverage
 *.lcov
 .nyc_output
+yarn.lock
