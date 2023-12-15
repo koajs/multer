@@ -1,7 +1,6 @@
 /* eslint-env mocha */
 
 const assert = require('node:assert');
-
 const stream = require('node:stream');
 const FormData = require('form-data');
 const multer = require('..');

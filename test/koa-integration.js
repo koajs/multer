@@ -1,7 +1,6 @@
 /* eslint-env mocha */
 
 const assert = require('node:assert');
-
 const Koa = require('koa');
 const Router = require('@koa/router');
 const FormData = require('form-data');

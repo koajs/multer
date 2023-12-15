@@ -4,7 +4,7 @@
 
 [![NPM version][npm-img]][npm-url]
 [![NPM Downloads][downloads-image]][npm-url]
-[![Build status][travis-img]][travis-url]
+[![Build status][actions-img]][actions-url]
 [![Test coverage][coveralls-img]][coveralls-url]
 [![Dependency status][david-img]][david-url]
 [![License][license-img]][license-url]
@@ -96,9 +96,9 @@ app.listen(3000);
 
 [npm-url]: https://npmjs.org/package/@koa/multer
 
-[travis-img]: https://img.shields.io/travis/koajs/multer.svg?style=flat-square
+[actions-img]: https://github.com/koajs/multer/actions/workflows/unit-tests.yaml/badge.svg
 
-[travis-url]: https://travis-ci.org/koajs/multer
+[actions-url]: https://github.com/koajs/multer/actions
 
 [coveralls-img]: https://img.shields.io/coveralls/koajs/multer.svg?style=flat-square
 
