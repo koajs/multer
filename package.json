@@ -128,8 +128,5 @@
       "no-prototype-builtins": "off",
       "prefer-rest-params": "off"
     }
-  },
-  "dependencies": {
-    "fix-esm": "1.0.1"
   }
 }
