@@ -33,6 +33,7 @@
     "@koa/router": "^12",
     "concat-stream": "^2",
     "eslint-config-xo-lass": "^2.0.1",
+    "fix-esm": "^1.0.1",
     "fixpack": "^4.0.0",
     "form-data": "^4",
     "fs-temp": "^2",
