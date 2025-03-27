@@ -1,7 +1,8 @@
 'use strict';
 
 /*!
- * multer
+ * @koa/multer
+ *
  * Copyright(c) 2014 Hage Yaapa
  * Copyright(c) 2015 Fangdun Cai
  * MIT Licensed
@@ -11,9 +12,7 @@
  * Module dependencies.
  */
 
-let originalMulter = require('multer');
-
-if (originalMulter.default) originalMulter = originalMulter.default;
+const originalMulter = require('multer');
 
 function multer(options) {
   const m = originalMulter(options);

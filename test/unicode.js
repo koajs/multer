@@ -2,7 +2,7 @@
 
 const assert = require('node:assert');
 const path = require('node:path');
-const temp = require('fix-esm').require('fs-temp').default;
+const temp = require('fs-temp');
 const rimraf = require('rimraf');
 const FormData = require('form-data');
 const multer = require('..');
