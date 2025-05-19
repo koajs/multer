@@ -8,15 +8,14 @@ const util = require('./_util');
 describe('Reuse Middleware', () => {
   let parser;
 
-  before((done) => {
-    parser = multer().array('them-files');
-    done();
+  before(async () => {
+    parser = await multer().array('them-files');
   });
 
-  it('should accept multiple requests', (done) => {
+  it('should accept multiple requests', async () => {
     let pending = 8;
 
-    function submitData(fileCount) {
+    async function submitData(fileCount) {
       const form = new FormData();
 
       form.append('name', 'Multer');
@@ -26,31 +25,29 @@ describe('Reuse Middleware', () => {
         form.append('them-files', util.file('small0.dat'));
       }
 
-      util.submitForm(parser, form, (err, req) => {
-        assert.ifError(err);
+      const req = await util.submitForm(parser, form);
 
-        assert.equal(req.body.name, 'Multer');
-        assert.equal(req.body.files, String(fileCount));
-        assert.equal(req.files.length, fileCount);
+      assert.equal(req.body.name, 'Multer');
+      assert.equal(req.body.files, String(fileCount));
+      assert.equal(req.files.length, fileCount);
 
-        for (const file of req.files) {
-          assert.equal(file.fieldname, 'them-files');
-          assert.equal(file.originalname, 'small0.dat');
-          assert.equal(file.size, 1778);
-          assert.equal(file.buffer.length, 1778);
-        }
+      for (const file of req.files) {
+        assert.equal(file.fieldname, 'them-files');
+        assert.equal(file.originalname, 'small0.dat');
+        assert.equal(file.size, 1778);
+        assert.equal(file.buffer.length, 1778);
+      }
 
-        if (--pending === 0) done();
-      });
+      --pending;
     }
 
-    submitData(9);
-    submitData(1);
-    submitData(5);
-    submitData(7);
-    submitData(2);
-    submitData(8);
-    submitData(3);
-    submitData(4);
+    await submitData(9);
+    await submitData(1);
+    await submitData(5);
+    await submitData(7);
+    await submitData(2);
+    await submitData(8);
+    await submitData(3);
+    await submitData(4);
   });
 });

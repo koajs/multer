@@ -6,7 +6,7 @@ const multer = require('..');
 const util = require('./_util');
 
 describe('File ordering', () => {
-  it('should present files in same order as they came', (done) => {
+  it('should present files in same order as they came', async () => {
     const storage = multer.memoryStorage();
     const upload = multer({ storage });
     const parser = upload.array('themFiles', 2);
@@ -36,12 +36,9 @@ describe('File ordering', () => {
     form.append('themFiles', util.file('small0.dat'));
     form.append('themFiles', util.file('small1.dat'));
 
-    util.submitForm(parser, form, (err, req) => {
-      assert.ifError(err);
-      assert.equal(req.files.length, 2);
-      assert.equal(req.files[0].originalname, 'small0.dat');
-      assert.equal(req.files[1].originalname, 'small1.dat');
-      done();
-    });
+    const req = await util.submitForm(parser, form);
+    assert.equal(req.files.length, 2);
+    assert.equal(req.files[0].originalname, 'small0.dat');
+    assert.equal(req.files[1].originalname, 'small1.dat');
   });
 });
