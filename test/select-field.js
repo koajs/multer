@@ -41,45 +41,37 @@ describe('Select Field', () => {
     ]);
   });
 
-  it('should select the first file with fieldname', (done) => {
-    util.submitForm(parser, generateForm(), (err, req) => {
-      assert.ifError(err);
+  it('should select the first file with fieldname', async () => {
+    const req = await util.submitForm(parser, generateForm());
 
-      let file;
+    let file;
 
-      file = req.files['CA$|-|'][0];
-      assert.equal(file.fieldname, 'CA$|-|');
-      assert.equal(file.originalname, 'empty.dat');
+    file = req.files['CA$|-|'][0];
+    assert.equal(file.fieldname, 'CA$|-|');
+    assert.equal(file.originalname, 'empty.dat');
 
-      file = req.files['set-1'][0];
-      assert.equal(file.fieldname, 'set-1');
-      assert.equal(file.originalname, 'tiny0.dat');
+    file = req.files['set-1'][0];
+    assert.equal(file.fieldname, 'set-1');
+    assert.equal(file.originalname, 'tiny0.dat');
 
-      file = req.files['set-2'][0];
-      assert.equal(file.fieldname, 'set-2');
-      assert.equal(file.originalname, 'tiny1.dat');
-
-      done();
-    });
+    file = req.files['set-2'][0];
+    assert.equal(file.fieldname, 'set-2');
+    assert.equal(file.originalname, 'tiny1.dat');
   });
 
-  it('should select all files with fieldname', (done) => {
-    util.submitForm(parser, generateForm(), (err, req) => {
-      assert.ifError(err);
+  it('should select all files with fieldname', async () => {
+    const req = await util.submitForm(parser, generateForm());
 
-      assertSet(req.files['CA$|-|'], 'CA$|-|', ['empty.dat']);
-      assertSet(req.files['set-1'], 'set-1', [
-        'tiny0.dat',
-        'empty.dat',
-        'tiny1.dat'
-      ]);
-      assertSet(req.files['set-2'], 'set-2', [
-        'tiny1.dat',
-        'tiny0.dat',
-        'empty.dat'
-      ]);
-
-      done();
-    });
+    assertSet(req.files['CA$|-|'], 'CA$|-|', ['empty.dat']);
+    assertSet(req.files['set-1'], 'set-1', [
+      'tiny0.dat',
+      'empty.dat',
+      'tiny1.dat'
+    ]);
+    assertSet(req.files['set-2'], 'set-2', [
+      'tiny1.dat',
+      'tiny0.dat',
+      'empty.dat'
+    ]);
   });
 });

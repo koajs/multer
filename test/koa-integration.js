@@ -14,29 +14,31 @@ const port = 34279;
 describe('Koa Integration', () => {
   let app;
 
-  before((done) => {
+  before(async () => {
     app = new Koa();
     app.silent = true;
-    app.listen(port, done);
+    await app.listen(port);
   });
 
-  function submitForm(form, path, cb) {
-    const req = form.submit('http://localhost:' + port + path);
+  function submitForm(form, path) {
+    return new Promise((resolve, reject) => {
+      const req = form.submit(`http://localhost:${port}${path}`);
 
-    req.on('error', cb);
-    req.on('response', (res) => {
-      res.on('error', cb);
-      res.pipe(
-        concat({ encoding: 'buffer' }, (body) => {
-          onFinished(req, () => {
-            cb(null, res, body);
-          });
-        })
-      );
+      req.on('error', reject);
+      req.on('response', (res) => {
+        res.on('error', reject);
+        res.pipe(
+          concat({ encoding: 'buffer' }, (body) => {
+            onFinished(req, () => {
+              resolve({ res, body });
+            });
+          })
+        );
+      });
     });
   }
 
-  it('should work with koa error handling', (done) => {
+  it('should work with koa error handling', async () => {
     const limits = { fileSize: 200 };
     const upload = multer({ limits });
     const router = new Router();
@@ -64,19 +66,14 @@ describe('Koa Integration', () => {
     app.use(router.routes());
     app.use(router.allowedMethods());
 
-    submitForm(form, '/t1/profile', (err, res, body) => {
-      assert.ifError(err);
-
-      assert.equal(routeCalled, 0);
-      assert.equal(errorCalled, 1);
-      assert.equal(body.toString(), 'Internal Server Error');
-      assert.equal(res.statusCode, 500);
-
-      done();
-    });
+    const { res, body } = await submitForm(form, '/t1/profile');
+    assert.equal(routeCalled, 0);
+    assert.equal(errorCalled, 1);
+    assert.equal(body.toString(), 'Internal Server Error');
+    assert.equal(res.statusCode, 500);
   });
 
-  it('should work when receiving error from fileFilter', (done) => {
+  it('should work when receiving error from fileFilter', async () => {
     function fileFilter(req, file, cb) {
       cb(new Error('TEST'));
     }
@@ -107,15 +104,10 @@ describe('Koa Integration', () => {
     app.use(router.routes());
     app.use(router.allowedMethods());
 
-    submitForm(form, '/t2/profile', (err, res, body) => {
-      assert.ifError(err);
-
-      assert.equal(routeCalled, 0);
-      assert.equal(errorCalled, 1);
-      assert.equal(body.toString(), 'Internal Server Error');
-      assert.equal(res.statusCode, 500);
-
-      done();
-    });
+    const { res, body } = await submitForm(form, '/t2/profile');
+    assert.equal(routeCalled, 0);
+    assert.equal(errorCalled, 1);
+    assert.equal(body.toString(), 'Internal Server Error');
+    assert.equal(res.statusCode, 500);
   });
 });
