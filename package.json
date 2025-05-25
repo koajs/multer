@@ -93,7 +93,8 @@
   },
   "main": "index.js",
   "peerDependencies": {
-    "multer": "*"
+    "multer": "*",
+    "koa": ">=2"
   },
   "prettier": {
     "singleQuote": true,
